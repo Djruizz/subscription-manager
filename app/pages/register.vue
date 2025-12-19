@@ -2,7 +2,7 @@
 definePageMeta({
   layout: "auth",
 });
-const { signUp, signInWithOAuth } = useAuth();
+const { signUp } = useAuth();
 import {
   registerSchema,
   type RegisterSchema,

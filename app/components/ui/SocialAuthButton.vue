@@ -17,15 +17,14 @@ import IconsIconGoogle from '~/components/icons/IconGoogle.vue'
 import IconsIconApple from '~/components/icons/IconApple.vue'
 import IconsIconFacebook from '~/components/icons/IconFacebook.vue'
 
+const {signInWithOAuth} = useAuth();
+
 type Provider = 'google' | 'apple' | 'facebook'
 
 const props = defineProps<{
   provider: Provider
 }>()
 
-const emit = defineEmits<{
-  (e: 'click', provider: Provider): void
-}>()
 
 
 const loading = ref(false)
@@ -39,11 +38,6 @@ const icons = {
 const Icon = computed(() => icons[props.provider])
 
 const handleClick = async () => {
-  loading.value = true
-  try {
-    emit('click', props.provider)
-  } finally {
-    loading.value = false
-  }
+  await signInWithOAuth(props.provider)
 }
 </script>

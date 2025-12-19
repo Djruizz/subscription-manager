@@ -2,7 +2,7 @@
 definePageMeta({
   layout: "auth",
 });
-const { signIn, signInWithOAuth } = useAuth();
+const { signIn } = useAuth();
 import { loginSchema, type LoginSchema } from "../../schemas/login.schema";
 
 const state = reactive<LoginSchema>({

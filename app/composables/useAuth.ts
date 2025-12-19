@@ -21,7 +21,7 @@ export const useAuth = () => {
       icon: "i-lucide-circle-check",
       color: "primary",
     });
-    router.push("/");
+    router.push("/dashboard");
   };
   const signUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({
@@ -42,13 +42,13 @@ export const useAuth = () => {
       icon: "i-lucide-circle-check",
       color: "primary",
     });
-    router.push("/");
+    router.push("/dashboard");
   };
   const signInWithOAuth = async (provider: "google" | "apple" | "facebook") => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
-        redirectTo: "/",
+        redirectTo: "/dashboard",
       },
     });
     if (error) {
