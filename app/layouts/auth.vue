@@ -25,15 +25,17 @@ const items = [
       ></UButton>
     </template>
   </UHeader> -->
-  
+
   <UMain
-    class="bg-linear-to-b from-slate-900 via-slate-900 to-slate-950 flex justify-center items-center min-h-screen"
+    class="min-h-screen bg-linear-to-b from-slate-900 via-slate-900 to-slate-950 flex items-center justify-center"
   >
-    <UPage class="w-full sm:mx-5">
+    <UPage class="w-full px-4 sm:px-6">
       <UContainer
-        class="mt-5 grid lg:grid-cols-2 grid-cols-1 gap-6 bg-slate-800/40 rounded-xl min-h-200"
+        class="mx-auto bg-slate-800/40 rounded-xl overflow-hidden p-20"
       >
-        <slot></slot>
+        <div class="grid lg:grid-cols-2">
+          <slot />
+        </div>
       </UContainer>
     </UPage>
   </UMain>

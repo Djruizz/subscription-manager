@@ -2,98 +2,115 @@
 definePageMeta({
   layout: "auth",
 });
-const {signUp, signInWithOAuth} = useAuth()
-import {registerSchema, type RegisterSchema} from '../../schemas/register.schema';
+const { signUp, signInWithOAuth } = useAuth();
+import {
+  registerSchema,
+  type RegisterSchema,
+} from "../../schemas/register.schema";
 
 const state = reactive<RegisterSchema>({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-})
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+});
 
-
-const handleSubmit = (async()=>{
-  await signUp(state.email, state.password)
-})
+const handleSubmit = async () => {
+  await signUp(state.email, state.password);
+};
 </script>
 <template>
+  <!-- Left cell, hidden on mobiles -->
   <div class="hidden lg:block"></div>
-  <div class="flex flex-col justify-center items-center">
+
+  <!-- Form column -->
+  <div class="flex items-center justify-center px-4 py-10 lg:py-0">
     <div
-      class="flex flex-col justify-around items-start bg-slate-800 h-4/5 w-full max-w-md px-6 xs:px-10 rounded-xl relative"
+      class="relative w-full max-w-lg bg-slate-800 px-6 sm:px-10 py-8 rounded-xl"
     >
+      <!-- Logo -->
       <img
         src="../assets/img/LogoEditableOutlay.png"
-        alt="Logo de la app"
-        class="absolute -top-10 left-1/2 -translate-x-1/2 h-20 z-50"
+        alt="Logo"
+        class="absolute -top-10 left-1/2 -translate-x-1/2 h-20 z-10"
       />
 
-      <div>
+      <!-- Header -->
+      <div class="mb-6 text-left">
         <h1 class="text-4xl font-bold mb-2">Register</h1>
-        <p>Please enter your account details</p>
+        <p class="text-slate-400">Please enter your account details</p>
       </div>
 
-      <div class="w-full min-w-0 text-center">
-        <UForm class="grid gap-4 xs:w-full min-w-0" @submit="handleSubmit" :schema="registerSchema" :state="state">
-          <UFormField label="Name" name="name" class="w-full min-w-0">
-            <UInput
-              name="name"
-              type="text"
-              placeholder="Your Name"
-              v-model="state.name"
-              class="w-full min-w-px"
-              size="md"
-            />
-          </UFormField>
-
-          <UFormField label="Email" name="email"class="w-full min-w-0">
-            <UInput
-              name="email"
-              type="email"
-              placeholder="mail@example.com"
-              v-model="state.email"
-              class="w-full min-w-0"
-            />
-          </UFormField>
-
-          <UFormField label="Password" name="password"class="w-full min-w-0">
-            <UInput
-              name="password"
-              type="password"
-              placeholder="********"
-              v-model="state.password"
-              class="w-full min-w-0"
-            />
-          </UFormField>
-
-          <UFormField label="Confirm Password" name="confirmPassword" class="w-full min-w-0">
-            <UInput
-              name="confirmPass"
-              type="password"
-              placeholder="********"
-              v-model="state.confirmPassword"
-              class="w-full min-w-0"
-            />
-          </UFormField>
-
-          <UButton
-            class="mt-1 mx-auto px-30 py-2"
-            label="Submit"
-            loading-auto
-            type="submit"
-            variant="subtle"
+      <!-- Form -->
+      <UForm
+        :schema="registerSchema"
+        :state="state"
+        @submit="handleSubmit"
+        class="grid gap-6"
+      >
+        <UFormField label="Name" name="name" class="relative">
+          <UInput
+            v-model="state.name"
+            type="text"
+            placeholder="Your Name"
+            class="w-full"
           />
+        </UFormField>
 
-          <div class="flex w-full gap-4 justify-center">
-            <UiSocialAuthButton provider="google" @click="signInWithOAuth" />
-            <UiSocialAuthButton provider="apple" @click="signInWithOAuth" />
-            <UiSocialAuthButton provider="facebook" @click="signInWithOAuth" />
-          </div>
-        </UForm>
+        <UFormField label="Email" name="email" class="relative">
+          <UInput
+            v-model="state.email"
+            type="email"
+            placeholder="mail@example.com"
+            class="w-full"
+          />
+        </UFormField>
 
-        <UButton label="Login" variant="link" class="pt-5" to="/login" />
+        <UFormField label="Password" name="password" class="relative">
+          <UInput
+            v-model="state.password"
+            type="password"
+            placeholder="********"
+            class="w-full"
+          />
+        </UFormField>
+
+        <UFormField
+          label="Confirm Password"
+          name="confirmPassword"
+          class="relative"
+        >
+          <UInput
+            v-model="state.confirmPassword"
+            type="password"
+            placeholder="********"
+            class="w-full"
+          />
+        </UFormField>
+
+        <!-- Submit -->
+        <UButton
+          type="submit"
+          label="Create account"
+          loading-auto
+          class="mx-auto w-2/3 justify-center text-center"
+        />
+      </UForm>
+
+      <!-- Social auth -->
+      <div class="flex justify-center gap-4 mt-6">
+        <UiSocialAuthButton provider="google" />
+        <UiSocialAuthButton provider="apple" />
+        <UiSocialAuthButton provider="facebook" />
       </div>
+
+      <!-- Footer -->
+      <UButton
+        to="/login"
+        variant="link"
+        class="mt-6 block mx-auto"
+        label="Already have an account?"
+      />
     </div>
   </div>
 </template>
