@@ -3,6 +3,7 @@ const supabase = useSupabaseClient()
 
 const logout = (async()=>{
     const { error } = await supabase.auth.signOut()
+    useRouter().push('/login')
 })
 </script>
 

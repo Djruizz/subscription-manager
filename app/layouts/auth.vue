@@ -6,7 +6,7 @@ const items = [
 ];
 </script>
 <template>
-  <UHeader>
+  <!-- <UHeader>
     <template #title>
       <img
         src="../assets/img/LogoEditableOutlay.png"
@@ -21,10 +21,20 @@ const items = [
         icon="i-simple-icons-github"
         color="neutral"
         to="https://github.com/Djruizz/subscription-manager"
+        target="_blank"
       ></UButton>
     </template>
-  </UHeader>
-  <UMain>
-    <slot></slot>
+  </UHeader> -->
+  
+  <UMain
+    class="bg-linear-to-b from-slate-900 via-slate-900 to-slate-950 flex justify-center items-center min-h-screen"
+  >
+    <UPage class="w-full sm:mx-5">
+      <UContainer
+        class="mt-5 grid lg:grid-cols-2 grid-cols-1 gap-6 bg-slate-800/40 rounded-xl min-h-200"
+      >
+        <slot></slot>
+      </UContainer>
+    </UPage>
   </UMain>
 </template>
