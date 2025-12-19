@@ -1,13 +1,9 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient()
+const {signOut} = useAuth();
 
-const logout = (async()=>{
-    const { error } = await supabase.auth.signOut()
-    useRouter().push('/login')
-})
 </script>
 
 <template>
-    <h1 class="bg-red-500">Index</h1>
-    <button @click="logout">logout</button>
+    <h1 class="bg-emerald-500">Index</h1>
+    <button @click="signOut">logout</button>
 </template>

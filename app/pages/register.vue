@@ -2,34 +2,20 @@
 definePageMeta({
   layout: "auth",
 });
-const supabase = useSupabaseClient();
+const {signUp, signInWithOAuth} = useAuth()
+import {registerSchema, type RegisterSchema} from '../../schemas/register.schema';
 
-const name = ref<string>("");
-const email = ref<string>("");
-const password = ref<string>("");
-const confirmPassword = ref<string>("");
+const state = reactive<RegisterSchema>({
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+})
 
-const signUpUser = async () => {
-  const { error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value,
-  });
-  if (error) {
-    throw new Error("Error al registrar");
-  }
-};
-const OAuth = async (provider: "google" | "apple" | "facebook") => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: provider,
-    options: {
-      redirectTo: "/",
-    },
-  });
-  if (error) {
-    console.error(error.message);
-    return;
-  }
-};
+
+const handleSubmit = (async()=>{
+  await signUp(state.email, state.password)
+})
 </script>
 <template>
   <div class="hidden lg:block"></div>
@@ -49,44 +35,44 @@ const OAuth = async (provider: "google" | "apple" | "facebook") => {
       </div>
 
       <div class="w-full min-w-0 text-center">
-        <UForm class="grid gap-4 xs:w-full min-w-0" @submit="signUpUser">
-          <UFormField label="Name" class="w-full min-w-0">
+        <UForm class="grid gap-4 xs:w-full min-w-0" @submit="handleSubmit" :schema="registerSchema" :state="state">
+          <UFormField label="Name" name="name" class="w-full min-w-0">
             <UInput
               name="name"
               type="text"
               placeholder="Your Name"
-              v-model="name"
+              v-model="state.name"
               class="w-full min-w-px"
               size="md"
             />
           </UFormField>
 
-          <UFormField label="Email" class="w-full min-w-0">
+          <UFormField label="Email" name="email"class="w-full min-w-0">
             <UInput
               name="email"
               type="email"
               placeholder="mail@example.com"
-              v-model="email"
+              v-model="state.email"
               class="w-full min-w-0"
             />
           </UFormField>
 
-          <UFormField label="Password" class="w-full min-w-0">
+          <UFormField label="Password" name="password"class="w-full min-w-0">
             <UInput
               name="password"
               type="password"
               placeholder="********"
-              v-model="password"
+              v-model="state.password"
               class="w-full min-w-0"
             />
           </UFormField>
 
-          <UFormField label="Confirm Password" class="w-full min-w-0">
+          <UFormField label="Confirm Password" name="confirmPassword" class="w-full min-w-0">
             <UInput
               name="confirmPass"
               type="password"
               placeholder="********"
-              v-model="confirmPassword"
+              v-model="state.confirmPassword"
               class="w-full min-w-0"
             />
           </UFormField>
@@ -100,9 +86,9 @@ const OAuth = async (provider: "google" | "apple" | "facebook") => {
           />
 
           <div class="flex w-full gap-4 justify-center">
-            <UiSocialAuthButton provider="google" @click="OAuth" />
-            <UiSocialAuthButton provider="apple" @click="OAuth" />
-            <UiSocialAuthButton provider="facebook" @click="OAuth" />
+            <UiSocialAuthButton provider="google" @click="signInWithOAuth" />
+            <UiSocialAuthButton provider="apple" @click="signInWithOAuth" />
+            <UiSocialAuthButton provider="facebook" @click="signInWithOAuth" />
           </div>
         </UForm>
 
