@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'auth',
+})
 const supabase = useSupabaseClient();
 const email = ref<string>("");
 const password = ref<string>("");
@@ -19,11 +22,5 @@ const signInWithPass = async () => {
 </script>
 
 <template>
-  <div>
-    <button @click="signInWithPass">Sign In with E-Mail</button>
-    <p>email</p>
-    <input v-model="email" type="email" />
-    <p>pass</p>
-    <input v-model="password" type="text" />
-  </div>
+  <UButton color="primary">HOLA</UButton>
 </template>
