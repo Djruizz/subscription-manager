@@ -15,7 +15,7 @@ const showNavItems = computed(() => {
   <UPage
     class="bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 min-h-screen"
   >
-    <div class="flex min-h-screen overflow-hidden lg:overflow-visible">
+    <div class="flex min-h-screen overflow-clip">
       <div
         :class="[isCollapsed ? 'w-20 ' : 'w-64']"
         class="hidden lg:block m-5 transition-translate duration-300 ease-in-out rounded-xl"
@@ -23,8 +23,11 @@ const showNavItems = computed(() => {
         @mouseleave="isHover = false"
       >
         <aside
-          :class="[dynamicSide ? 'w-64 bg-slate-900' : 'w-20 bg-slate-900/75', !isCollapsed ? 'w-64 ' : '']"
-          class="hidden lg:flex flex-col border-r border-slate-800  sticky h-[calc(100vh-2.5rem)] z-9999999 top-5 rounded-xl transition-all duration-300 ease-in-out"
+          :class="[
+            dynamicSide ? 'w-64 bg-slate-900' : 'w-20 bg-slate-900/75',
+            !isCollapsed ? 'w-64 ' : '',
+          ]"
+          class="hidden lg:flex flex-col border-r border-slate-800 sticky h-[calc(100vh-2.5rem)] z-9999999 top-5 rounded-xl transition-all duration-300 ease-in-out"
         >
           <div
             :class="showNavItems ? 'p-4' : 'justify-center'"
@@ -48,11 +51,7 @@ const showNavItems = computed(() => {
               v-if="showNavItems"
               color="neutral"
               variant="ghost"
-              :icon="
-                isCollapsed
-                  ? 'i-lucide-circle'
-                  : 'i-lucide-circle-dot'
-              "
+              :icon="isCollapsed ? 'i-lucide-circle' : 'i-lucide-circle-dot'"
               @click="isCollapsed = !isCollapsed"
             />
           </div>
@@ -68,8 +67,8 @@ const showNavItems = computed(() => {
         side="left"
         class="w-64 bg-slate-900 max-h-screen"
         :ui="{
-          header:'p-4',
-          body:'p-0 pt-2 '
+          header: 'p-4',
+          body: 'p-0 pt-2 ',
         }"
       >
         <template #title>
@@ -87,7 +86,7 @@ const showNavItems = computed(() => {
       </USlideover>
       <!-- MAIN CONTENT -->
       <UMain class="flex-1 min-w-0">
-        <UHeader class="m-5 rounded-xl top-5">
+        <UHeader class="m-5 rounded-xl top-5" :toggle="false">
           <template #left>
             <UButton
               icon="i-heroicons-bars-3"
@@ -96,8 +95,9 @@ const showNavItems = computed(() => {
               class="lg:hidden mr-4"
               @click="isMobileOpen = true"
             />
-            <h1 class="text-2xl font-semibold">Panel General</h1>
+            <h1 class="sm:text-2xl font-semibold">Panel General</h1>
           </template>
+
           <template #right>
             <LayoutHeaderRightButtons />
           </template>
@@ -105,6 +105,11 @@ const showNavItems = computed(() => {
 
         <div class="p-4 md:p-6">
           <slot></slot>
+        </div>
+        <div class="sticky bottom-5">
+          <div class="flex justify-end">
+            <UButton icon="i-lucide-plus" size="xl" class="mx-5 rounded-full" />
+          </div>
         </div>
       </UMain>
     </div>
