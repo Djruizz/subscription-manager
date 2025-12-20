@@ -1,6 +1,14 @@
 <script setup lang="ts">
 const isCollapsed = ref(false);
+const isHover = ref(false);
 const isMobileOpen = ref(false);
+
+const dynamicSide = computed(() => isHover.value && isCollapsed.value);
+const showNavItems = computed(() => {
+  if (!isCollapsed.value) return true;
+
+  return dynamicSide.value;
+});
 </script>
 
 <template>
@@ -8,57 +16,61 @@ const isMobileOpen = ref(false);
     class="bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 min-h-screen"
   >
     <div class="flex min-h-screen overflow-hidden lg:overflow-visible">
-      <!-- <aside
-        class="col-span-12 lg:col-span-2 bg-slate-800 rounded-xl p-4 flex flex-col justify-between"
-      >
-        
-      </aside> -->
-      <aside
-        class="hidden lg:flex flex-col border-r border-slate-800 bg-slate-900 sticky h-[calc(100vh-2.5rem)] top-5 m-5 transition-translate duration-300 ease-in-out rounded-xl"
+      <div
         :class="[isCollapsed ? 'w-20 ' : 'w-64']"
+        class="hidden lg:block m-5 transition-translate duration-300 ease-in-out rounded-xl"
+        @mouseenter="isHover = true"
+        @mouseleave="isHover = false"
       >
-        <div
-          class="h-20 flex items-center justify-center border-b border-slate-800"
+        <aside
+          :class="[dynamicSide ? 'w-64 bg-slate-900' : 'w-20 bg-slate-900/75', !isCollapsed ? 'w-64 ' : '']"
+          class="hidden lg:flex flex-col border-r border-slate-800  sticky h-[calc(100vh-2.5rem)] z-9999999 top-5 rounded-xl transition-all duration-300 ease-in-out"
         >
-          <NuxtLink to="/dashboard" v-if="isCollapsed">
-            <img
-              src="../assets/img/IconoLogoOutlay.png"
-              alt="Logo de la app"
-              class="h-10 mx-auto"
+          <div
+            :class="showNavItems ? 'p-4' : 'justify-center'"
+            class="h-20 flex items-center justify-between border-b border-slate-800"
+          >
+            <NuxtLink to="/dashboard" v-if="!showNavItems">
+              <img
+                src="../assets/img/IconoLogoOutlay.png"
+                alt="Logo de la app"
+                class="h-10 mx-auto"
+              />
+            </NuxtLink>
+            <NuxtLink to="/dashboard" v-else>
+              <img
+                src="../assets/img/LogoOutlay.png"
+                alt="Logo de la app"
+                class="h-15 mx-auto"
+              />
+            </NuxtLink>
+            <UButton
+              v-if="showNavItems"
+              color="neutral"
+              variant="ghost"
+              :icon="
+                isCollapsed
+                  ? 'i-lucide-circle'
+                  : 'i-lucide-circle-dot'
+              "
+              @click="isCollapsed = !isCollapsed"
             />
-          </NuxtLink>
-          <NuxtLink to="/dashboard" v-else>
-            <img
-              src="../assets/img/LogoOutlay.png"
-              alt="Logo de la app"
-              class="h-15 mx-auto"
-            />
-          </NuxtLink>
-        </div>
+          </div>
 
-        <div class="flex-1 py-4 overflow-y-auto overflow-x-hidden">
-          <LayoutSideBarNav :collapsed="isCollapsed" />
-        </div>
-
-        <div class="p-4 border-t border-slate-800 flex justify-center">
-          <UButton
-            color="neutral"
-            variant="ghost"
-            :icon="
-              isCollapsed
-                ? 'i-heroicons-chevron-double-right-20-solid'
-                : 'i-heroicons-chevron-double-left-20-solid'
-            "
-            @click="isCollapsed = !isCollapsed"
-          />
-        </div>
-      </aside>
+          <div class="flex-1 py-4 overflow-y-auto overflow-x-hidden">
+            <LayoutSideBarNav :collapsed="!showNavItems" />
+          </div>
+        </aside>
+      </div>
 
       <USlideover
         v-model:open="isMobileOpen"
         side="left"
         class="w-64 bg-slate-900 max-h-screen"
-        :overlay="false"
+        :ui="{
+          header:'p-4',
+          body:'p-0 pt-2 '
+        }"
       >
         <template #title>
           <NuxtLink to="/dashboard">

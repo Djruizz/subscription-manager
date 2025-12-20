@@ -57,8 +57,8 @@ const handleDropdownClick = async (value: string) => {
     >
       <UButton
         label="Settings"
-        class=""
-        :class="collapsed ? 'justify-center' : 'text-md w-full'"
+        class="w-full"
+        :class="collapsed ? 'justify-center' : 'text-md'"
         icon="i-lucide-settings"
         size="md"
         color="neutral"
@@ -72,6 +72,7 @@ const handleDropdownClick = async (value: string) => {
         :items="userItems"
         :content="{ align: 'center', side: 'right' }"
         @select="handleDropdownClick"
+        arrow
       >
         <UButton
           variant="soft"

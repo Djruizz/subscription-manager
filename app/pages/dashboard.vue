@@ -1,6 +1,6 @@
 <template>
     <!-- TOP STATS CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 h-screen">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
       <div class="bg-slate-800/60 rounded-xl p-5">
         <!-- Gasto mensual total -->
       </div>
