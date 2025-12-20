@@ -23,7 +23,7 @@ const handleSubmit = async () => {
     >
       <!-- Logo -->
       <img
-        src="../assets/img/LogoEditableOutlay.png"
+        src="../assets/img/LogoOutlay.png"
         alt="Logo"
         class="absolute -top-10 left-1/2 -translate-x-1/2 h-20 z-10"
       />
