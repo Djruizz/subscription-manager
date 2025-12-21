@@ -4,16 +4,40 @@ import Logo from "~/assets/img/IconoLogoOutlay.png";
 
 const isCollapsed = ref(false);
 const isHover = ref(false);
-
 const dynamicSide = computed(() => isHover.value && isCollapsed.value);
 const showNavItems = computed(() => {
   if (!isCollapsed.value) return true;
-
   return dynamicSide.value;
 });
-const route = useRoute()
+
+const route = useRoute();
 const pageTitle = computed((): string => {
-  return (route.meta.title as string) || 'Outlay'
+  return (route.meta.title as string) || "Outlay";
+});
+
+const mainRef = ref<HTMLElement | null>(null);
+const mainWidth = ref(0);
+
+const minContainerSize = computed(() => mainWidth.value < 600)
+
+onMounted(() => {
+  if (!mainRef.value) return
+
+  const observer = new ResizeObserver(
+    (entries: ResizeObserverEntry[]) => {
+      const entry = entries[0]
+      if (!entry) return
+
+      const el = entry.target as HTMLElement
+      mainWidth.value = el.getBoundingClientRect().width
+    }
+  )
+
+  observer.observe(mainRef.value)
+})
+provide('layoutSize', {
+  minContainerSize,
+  mainWidth
 })
 </script>
 
@@ -63,23 +87,28 @@ const pageTitle = computed((): string => {
       </div>
 
       <!-- MAIN CONTENT -->
-      <UMain class="flex-1 min-w-0">
-        <UHeader
-          class="m-5 rounded-xl top-5"
-          :toggle="false"
-          :title="pageTitle"
-        >
-          <!-- <template #left>
+      <UMain class="flex-1 min-w-0" >
+        <div ref="mainRef">
+          <UHeader
+            class="m-5 rounded-xl top-5"
+            :toggle="false"
+            :title="pageTitle"
+            :ui="{
+              container: 'gap-0',
+            }"
+          >
+            <!-- <template #left>
             <h1 class="sm:text-2xl font-semibold">Dashboard</h1>
           </template> -->
 
-          <template #right>
-            <LayoutHeaderRightButtons />
-          </template>
-        </UHeader>
+            <template #right>
+              <LayoutHeaderRightButtons/>
+            </template>
+          </UHeader>
 
-        <div class="p-4 md:p-6">
-          <slot></slot>
+          <div class="p-4 md:p-6">
+            <slot></slot>
+          </div>
         </div>
       </UMain>
       <LayoutBottomNav class="md:hidden"></LayoutBottomNav>

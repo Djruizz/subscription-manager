@@ -1,7 +1,12 @@
 <script setup lang="ts">
+
 const isOpen = ref(false);
 const query = ref("");
-
+const layoutSize = inject<{
+  minContainerSize: Ref<boolean>
+  mainWidth: Ref<number>
+}>('layoutSize')!
+const { mainWidth, minContainerSize } = layoutSize
 // Simulación de estructura (para que veas cómo se verá)
 const groups = [
   { key: "services", label: "Servicios" },
@@ -12,7 +17,7 @@ const groups = [
   <UModal title="Hola">
     <UButton variant="outline" color="neutral" icon="i-lucide-search">
       <template #default>
-        <span class="hidden xs:block text-slate-400">Search...</span>
+        <span class="text-slate-400" v-if="minContainerSize==false">Search...</span>
       </template>
     </UButton>
     <template #content>
