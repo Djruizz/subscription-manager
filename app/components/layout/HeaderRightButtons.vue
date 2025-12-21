@@ -1,11 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-  <UInput
-    name="search"
-    placeholder="Search"
-    icon="i-lucide-search"
-    variant="outline"
-  />
+  <UiSearchButton></UiSearchButton>
   <UButton icon="i-lucide-bell" variant="ghost" color="neutral"></UButton>
   <UButton
     label="Add subscription"
