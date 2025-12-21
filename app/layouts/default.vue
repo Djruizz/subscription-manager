@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import labelLogo from "~/assets/img/LogoOutlay.png";
+import Logo from "~/assets/img/IconoLogoOutlay.png";
+
 const isCollapsed = ref(false);
 const isHover = ref(false);
-const isMobileOpen = ref(false);
 
 const dynamicSide = computed(() => isHover.value && isCollapsed.value);
 const showNavItems = computed(() => {
@@ -9,6 +11,10 @@ const showNavItems = computed(() => {
 
   return dynamicSide.value;
 });
+const route = useRoute()
+const pageTitle = computed((): string => {
+  return (route.meta.title as string) || 'Outlay'
+})
 </script>
 
 <template>
@@ -18,7 +24,7 @@ const showNavItems = computed(() => {
     <div class="flex min-h-screen overflow-clip">
       <div
         :class="[isCollapsed ? 'w-20 ' : 'w-64']"
-        class="hidden lg:block m-5 transition-translate duration-300 ease-in-out rounded-xl"
+        class="hidden md:block mr-5 transition-translate duration-300 ease-in-out rounded-xl"
         @mouseenter="isHover = true"
         @mouseleave="isHover = false"
       >
@@ -27,24 +33,18 @@ const showNavItems = computed(() => {
             dynamicSide ? 'w-64 bg-slate-900' : 'w-20 bg-slate-900/75',
             !isCollapsed ? 'w-64 ' : '',
           ]"
-          class="hidden lg:flex flex-col border-r border-slate-800 sticky h-[calc(100vh-2.5rem)] z-9999999 top-5 rounded-xl transition-all duration-300 ease-in-out"
+          class="m-5 hidden md:flex flex-col border-r border-slate-800 sticky h-[calc(100vh-2.5rem)] z-9999999 top-5 rounded-xl transition-all duration-300 ease-in-out"
         >
           <div
             :class="showNavItems ? 'p-4' : 'justify-center'"
             class="h-20 flex items-center justify-between border-b border-slate-800"
           >
-            <NuxtLink to="/dashboard" v-if="!showNavItems">
+            <NuxtLink to="/dashboard">
               <img
-                src="../assets/img/IconoLogoOutlay.png"
-                alt="Logo de la app"
-                class="h-10 mx-auto"
-              />
-            </NuxtLink>
-            <NuxtLink to="/dashboard" v-else>
-              <img
-                src="../assets/img/LogoOutlay.png"
-                alt="Logo de la app"
-                class="h-15 mx-auto"
+                :src="showNavItems ? labelLogo : Logo"
+                alt="App Logo"
+                class="mx-auto"
+                :class="showNavItems ? 'h-15' : 'h-10'"
               />
             </NuxtLink>
             <UButton
@@ -62,41 +62,16 @@ const showNavItems = computed(() => {
         </aside>
       </div>
 
-      <USlideover
-        v-model:open="isMobileOpen"
-        side="left"
-        class="w-64 bg-slate-900 max-h-screen"
-        :ui="{
-          header: 'p-4',
-          body: 'p-0 pt-2 ',
-        }"
-      >
-        <template #title>
-          <NuxtLink to="/dashboard">
-            <img
-              src="../assets/img/LogoOutlay.png"
-              alt="Logo de la app"
-              class="h-15 mx-auto"
-            />
-          </NuxtLink>
-        </template>
-        <template #body>
-          <LayoutSideBarNav :collapsed="false" />
-        </template>
-      </USlideover>
       <!-- MAIN CONTENT -->
       <UMain class="flex-1 min-w-0">
-        <UHeader class="m-5 rounded-xl top-5" :toggle="false">
-          <template #left>
-            <UButton
-              icon="i-heroicons-bars-3"
-              color="neutral"
-              variant="ghost"
-              class="lg:hidden mr-4"
-              @click="isMobileOpen = true"
-            />
-            <h1 class="sm:text-2xl font-semibold">Panel General</h1>
-          </template>
+        <UHeader
+          class="m-5 rounded-xl top-5"
+          :toggle="false"
+          :title="pageTitle"
+        >
+          <!-- <template #left>
+            <h1 class="sm:text-2xl font-semibold">Dashboard</h1>
+          </template> -->
 
           <template #right>
             <LayoutHeaderRightButtons />
@@ -106,12 +81,8 @@ const showNavItems = computed(() => {
         <div class="p-4 md:p-6">
           <slot></slot>
         </div>
-        <div class="sticky bottom-5">
-          <div class="flex justify-end">
-            <UButton icon="i-lucide-plus" size="xl" class="mx-5 rounded-full" />
-          </div>
-        </div>
       </UMain>
+      <LayoutBottomNav class="md:hidden"></LayoutBottomNav>
     </div>
   </UPage>
 </template>

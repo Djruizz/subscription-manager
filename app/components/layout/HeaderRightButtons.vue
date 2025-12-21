@@ -13,4 +13,6 @@
     icon="i-lucide-plus"
     size="lg"
   />
+  <UiProfileButton collapsed class="md:hidden"/>
+
 </template>
