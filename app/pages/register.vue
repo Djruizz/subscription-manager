@@ -35,7 +35,7 @@ const handleSubmit = async () =>
       @submit="handleSubmit"
       class="grid gap-6"
     >
-      <UFormField label="Name" name="name" class="relative">
+      <UFormField label="Name" name="name">
         <UInput
           v-model="state.full_name"
           type="text"
@@ -44,7 +44,7 @@ const handleSubmit = async () =>
         />
       </UFormField>
 
-      <UFormField label="Email" name="email" class="relative">
+      <UFormField label="Email" name="email">
         <UInput
           v-model="state.email"
           type="email"
@@ -53,7 +53,7 @@ const handleSubmit = async () =>
         />
       </UFormField>
 
-      <UFormField label="Password" name="password" class="relative">
+      <UFormField label="Password" name="password">
         <UInput
           v-model="state.password"
           type="password"
@@ -62,11 +62,7 @@ const handleSubmit = async () =>
         />
       </UFormField>
 
-      <UFormField
-        label="Confirm Password"
-        name="confirmPassword"
-        class="relative"
-      >
+      <UFormField label="Confirm Password" name="confirmPassword">
         <UInput
           v-model="state.confirmPassword"
           type="password"
