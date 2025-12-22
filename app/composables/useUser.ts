@@ -40,7 +40,6 @@ export const useUser = () => {
   );
 
   const currency = computed(() => profile.value?.currency_pref);
-  console.log(shortName);
 
   const email = computed(() => user.value?.email ?? "");
 

@@ -23,7 +23,14 @@ const pageTitle = computed((): string => {
           }"
         >
           <template #right>
-            <NavbarHeaderRightButtons />
+            <SearchButton />
+            <UButton
+              icon="i-lucide-bell"
+              variant="ghost"
+              color="neutral"
+            ></UButton>
+            <SubscriptionsAddButton class="hidden md:flex"/>
+            <AuthProfileButton collapsed class="md:hidden" />
           </template>
         </UHeader>
 
@@ -32,9 +39,10 @@ const pageTitle = computed((): string => {
         </div>
       </UMain>
       <div class="fixed bottom-25 right-10 z-60 md:hidden">
-        <SubscriptionsNewSubscription size="xl" :isIconOnly="true" />
+        <SubscriptionsAddButton size="xl" :isIconOnly="true" />
       </div>
       <NavbarBottomNav class="md:hidden" />
     </div>
+    <SubscriptionsCreateModal />
   </UPage>
 </template>
