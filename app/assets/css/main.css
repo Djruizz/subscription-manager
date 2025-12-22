@@ -10,7 +10,7 @@
 
 @theme{
   --font-sans: Century, sans-serif;
-  --breakpoint-xs: 30rem;
+  --breakpoint-xs: 22rem;
 }
 :root{
   --ui-primary: var(--color-emerald-500)

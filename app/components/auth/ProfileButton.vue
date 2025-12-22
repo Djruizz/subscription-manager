@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { type DropdownMenuItem } from "@nuxt/ui";
-const user = useSupabaseUser();
-const userName = computed(() => user.value?.email ?? "Cargando...");
-
+const {email, shortName, getProfileData} = useUser()
 const props = defineProps<{
   collapsed: boolean;
 }>();
 
+onMounted(()=>getProfileData())
 const { signOut } = useAuth();
 
 const userItems = ref<DropdownMenuItem[]>([
-  [{ label: userName, icon: "i-lucide-user", type: "label" }],
+  [{ label: email, icon: "i-lucide-user", type: "label" }],
   [
     { label: "Account settings", icon: "i-lucide-settings", value: "settings" },
     {
@@ -39,7 +38,7 @@ const userItems = ref<DropdownMenuItem[]>([
       :trailing-icon="collapsed ? undefined : 'i-lucide-chevron-right'"
     >
       <UUser
-        :name="collapsed ? '' : 'Dario'"
+        :name="collapsed ? '' : shortName"
         :avatar="{
           src: '',
           icon: 'i-lucide-user',

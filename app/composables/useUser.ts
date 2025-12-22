@@ -2,45 +2,61 @@ export const useUser = () => {
   const supabase = useSupabaseClient();
   const user = useSupabaseUser();
 
-  const firstName = ref<string>();
-  const lastName = ref<string>();
-  const shortName = ref<string>();
-  const currency = ref<string>();
+  const profile = ref<any | null>(null);
+  const loading = ref(false);
 
   const getProfileData = async () => {
+    loading.value = true;
+
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .single();
-    if (error) throw error;
+      .single(); // RLS garantiza una sola fila
 
-    if (data) {
-      firstName.value = data.full_name?.split(" ")[0];
-      lastName.value =
-        data.full_name?.split(" ")[data.full_name.split(" ").length - 2];
-      shortName.value = `${firstName.value} ${lastName.value}`;
-      currency.value = data.currency_pref;
-      
-      return data;
-    }
-    
+    loading.value = false;
+
+    if (error) throw error;
+    profile.value = data;
   };
 
   watch(
-    user,
-    (u) => {
-      if (u?.id) {
-        getProfileData();
-        console.log("GET Profile data");
-      }
+    () => user.value?.id,
+    (id) => {
+      if (id) getProfileData();
+      else profile.value = null;
     },
     { immediate: true }
   );
+
+  const fullName = computed(() => profile.value?.full_name ?? "");
+  const firstName = computed(() => fullName.value.split(" ")[0] ?? "");
+
+  const lastName = computed(
+    () => fullName.value.split(" ")[fullName.value.split(" ").length - 2]
+  );
+
+  const shortName = computed(() =>
+    `${firstName.value} ${lastName.value}`.trim()
+  );
+
+  const currency = computed(() => profile.value?.currency_pref);
+  console.log(shortName);
+
+  const email = computed(() => user.value?.email ?? "");
+
   return {
+    // state
+    profile,
+    loading,
+
+    // derived
     firstName,
     lastName,
     shortName,
     currency,
+    email,
+
+    // actions
     getProfileData,
   };
 };

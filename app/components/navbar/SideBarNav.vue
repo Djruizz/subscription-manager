@@ -38,7 +38,7 @@ const { desktopMenu, settingsButton } = useNavigation();
           label: collapsed ? 'hidden' : '',
         }"
       />
-      <UiProfileButton :collapsed="collapsed"/>
+      <AuthProfileButton :collapsed="collapsed"/>
     </div>
   </div>
 </template>

@@ -2,9 +2,9 @@
 
 </script>
 <template>
-  <UiSearchButton></UiSearchButton>
+  <SearchButton/>
   <UButton icon="i-lucide-bell" variant="ghost" color="neutral"></UButton>
-  <UiNewSubscription class="hidden md:flex"/>
-  <UiProfileButton collapsed class="md:hidden"/>
+  <SubscriptionsNewSubscription class="hidden md:flex"/>
+  <AuthProfileButton collapsed class="md:hidden"/>
 
 </template>
