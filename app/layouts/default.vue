@@ -97,10 +97,6 @@ provide('layoutSize', {
               container: 'gap-0',
             }"
           >
-            <!-- <template #left>
-            <h1 class="sm:text-2xl font-semibold">Dashboard</h1>
-          </template> -->
-
             <template #right>
               <LayoutHeaderRightButtons/>
             </template>
@@ -111,6 +107,9 @@ provide('layoutSize', {
           </div>
         </div>
       </UMain>
+      <div class="fixed bottom-25 right-10 z-60 md:hidden">
+        <UiNewSubscription size="xl" :isIconOnly="true"/>
+      </div>
       <LayoutBottomNav class="md:hidden"></LayoutBottomNav>
     </div>
   </UPage>
