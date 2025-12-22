@@ -23,10 +23,13 @@ export const useAuth = () => {
     });
     router.push("/dashboard");
   };
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, full_name: string) => {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options:{
+        data: {full_name}
+      }
     });
     if (error) {
       toast.add({

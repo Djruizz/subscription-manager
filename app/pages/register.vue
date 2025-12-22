@@ -9,14 +9,14 @@ import {
 } from "../../schemas/register.schema";
 
 const state = reactive<RegisterSchema>({
-  name: "",
+  full_name: "",
   email: "",
   password: "",
   confirmPassword: "",
 });
 
 const handleSubmit = async () => {
-  await signUp(state.email, state.password);
+  await signUp(state.email, state.password, state.full_name);
 };
 </script>
 <template>
@@ -50,9 +50,9 @@ const handleSubmit = async () => {
       >
         <UFormField label="Name" name="name" class="relative">
           <UInput
-            v-model="state.name"
+            v-model="state.full_name"
             type="text"
-            placeholder="Your Name"
+            placeholder="Your full name"
             class="w-full"
           />
         </UFormField>
