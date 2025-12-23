@@ -9,7 +9,10 @@ onMounted(async () => {
 
 </script>
 <template>
-  <div class="w-full max-w-5xl mx-auto space-y-4">
+  <div v-if="!subscriptions.length">
+    loading...
+  </div>
+  <div class="w-full max-w-5xl mx-auto space-y-4" v-else>
     
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-semibold text-white">Mis Suscripciones</h2>
