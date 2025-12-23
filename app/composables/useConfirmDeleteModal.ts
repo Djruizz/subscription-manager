@@ -1,23 +1,26 @@
-import { type Tables } from "~/types/database.types";
+import { reactive, toRefs } from "vue";
+import type { Tables } from "~/types/database.types";
+
+const state = reactive({
+  isOpen: false,
+  subscription: null as Tables<"subscriptions"> | null,
+});
 
 export const useConfirmDeleteModal = () => {
-  // useState asegura que el valor sea el mismo para todos los componentes
-  const isOpen = useState<boolean>("delete-modal-open", () => false);
-  const subscription = useState<Tables<"subscriptions"> | undefined>("delete-modal-data", () => undefined);
-
-  const open = (sub: Tables<"subscriptions">): void => {
-    subscription.value = sub;
-    isOpen.value = true;
+  const open = (sub: Tables<"subscriptions">) => {
+    state.subscription = sub;
+    state.isOpen = true;
   };
 
-  const close = (): void => {
-    isOpen.value = false;
-    subscription.value = undefined;
+  const close = () => {
+    state.isOpen = false;
+    setTimeout(() => {
+      state.subscription = null;
+    }, 300);
   };
 
   return {
-    isOpen,
-    subscription,
+    ...toRefs(state), // Esto permite desestructurar { isOpen, subscription } manteniendo la reactividad
     open,
     close,
   };

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 const { isOpen, subscription, close } = useConfirmDeleteModal();
+const {deleteSubscription} = useSubscriptions()
 const {} = useSubscriptions();
+
 const confirmDelete = async () => {
   if (!subscription.value) return;
+  deleteSubscription(subscription.value.id)
   close();
 };
 </script>
