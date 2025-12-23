@@ -7,6 +7,7 @@ const dateString = z
   });
 export const newSubscriptionSchema = z.object({
   name: z.string().min(1, "Can't be empty"),
+  category: z.string().min(1, "Can't be empty"),
   price: z.number().positive("Invalid price"),
   currency: z.enum(["USD", "MXN", "YEN"]),
   billing_cycle: z.enum(["monthly", "yearly"]),

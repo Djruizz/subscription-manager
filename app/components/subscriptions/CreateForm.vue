@@ -20,6 +20,7 @@ const handleSubmit = async () => {
 
 const state = reactive({
   name: "",
+  category:"",
   price: 0,
   currency: "USD",
   billing_cycle: "monthly",
@@ -43,6 +44,9 @@ const billingOptions = ref<SelectItem[]>([
   <UForm @submit="handleSubmit" :state="state">
     <UFormField label="Subscription name">
       <UInput placeholder="Name" v-model="state.name" type="text"></UInput>
+    </UFormField>
+    <UFormField label="Category">
+      <UInput placeholder="Category" v-model="state.category" type="text"></UInput>
     </UFormField>
     <UFormField label="Price">
       <UInput placeholder="$$" v-model="state.price" type="number"></UInput>
