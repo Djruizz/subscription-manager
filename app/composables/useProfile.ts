@@ -1,4 +1,4 @@
-export const useUser = () => {
+export const useProfile = () => {
   const supabase = useSupabaseClient();
   const user = useSupabaseUser();
 
@@ -27,7 +27,7 @@ export const useUser = () => {
     },
     { immediate: true }
   );
-
+  
   const fullName = computed(() => profile.value?.full_name ?? "");
   const firstName = computed(() => fullName.value.split(" ")[0] ?? "");
 
@@ -47,14 +47,12 @@ export const useUser = () => {
     // state
     profile,
     loading,
-
     // derived
     firstName,
     lastName,
     shortName,
     currency,
     email,
-
     // actions
     getProfileData,
   };

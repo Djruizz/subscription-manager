@@ -4,11 +4,9 @@ export const useCreateSubscriptionModal = () => {
 
   const open = (): void => {
     isOpen.value = true;
-    console.log(isOpen.value)
   };
   const close = (): void => {
     isOpen.value = false;
-    console.log(isOpen.value)
   };
 
   return {

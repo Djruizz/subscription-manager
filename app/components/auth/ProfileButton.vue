@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type DropdownMenuItem } from "@nuxt/ui";
-const {email, shortName, getProfileData} = useUser()
+const {email, shortName, getProfileData} = useProfile()
 const props = defineProps<{
   collapsed: boolean;
 }>();

@@ -1,33 +1,43 @@
 <script setup lang="ts">
 import type { SelectItem } from "@nuxt/ui";
-import type { TablesInsert } from "~/types/database.types";
+import { newSubscriptionSchema } from "@@/schemas/subscription.schema";
 
 const { createSubscription } = useSubscriptions();
+
 const { close } = useCreateSubscriptionModal();
 
 const handleSubmit = async () => {
-  await createSubscription(state);
+  const parsed = newSubscriptionSchema.safeParse(state);
+
+  if (!parsed.success) {
+    console.error(parsed.error);
+    return;
+  }
+
+  await createSubscription(parsed.data);
   close();
 };
 
-const state = reactive<TablesInsert<"subscriptions">>({
+const state = reactive({
   name: "",
   price: 0,
   currency: "USD",
   billing_cycle: "monthly",
-  start_date: new Date().toISOString(),
+  start_date: new Date().toISOString().split('T')[0],
   next_payment_date: "",
   active: true,
 });
+
 const currencyOptions = ref<SelectItem[]>([
   { label: "USD", value: "USD" },
   { label: "MXN", value: "MXN" },
   { label: "YEN", value: "YEN" },
 ]);
 const billingOptions = ref<SelectItem[]>([
-  { label: "Montly", value: "montly" },
+  { label: "Monthly", value: "monthly" },
   { label: "Yearly", value: "yearly" },
 ]);
+
 </script>
 <template>
   <UForm @submit="handleSubmit" :state="state">
