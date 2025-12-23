@@ -1,4 +1,4 @@
-import type { Tables, TablesInsert } from "~/types/database.types";
+import type { Tables, TablesInsert, TablesUpdate } from "~/types/database.types";
 export const useSubscriptions = () => {
   const supabase = useSupabaseClient();
   const toast = useToast();
@@ -35,7 +35,7 @@ export const useSubscriptions = () => {
     }
     if (data[0]) {
       toast.add({
-        title: "Subscription created successfully:",
+        title: "Subscription created successfully",
         description: data[0].name,
         icon: "i-lucide-circle-check",
         color: "primary",
@@ -45,16 +45,20 @@ export const useSubscriptions = () => {
     await fetchSubscriptions();
   };
 
-  const editSubscription = async (payload: TablesInsert<"subscriptions">) => {
+  const editSubscription = async (
+    payload: TablesUpdate<"subscriptions">,
+    id: string
+  ) => {
     const { data, error } = await supabase
       .from("subscriptions")
-      .update(payload).eq('id', payload.id!)
+      .update(payload)
+      .eq("id", id)
       .select();
 
-    if (error) {
+    if (error || !data[0]) {
       toast.add({
         title: "Error editing subscription",
-        description: error.message,
+        description: error?.message,
         icon: "i-lucide-circle-x",
         color: "error",
       });
@@ -62,7 +66,7 @@ export const useSubscriptions = () => {
     }
     if (data[0]) {
       toast.add({
-        title: "Subscription updated successfully:",
+        title: "Subscription updated successfully",
         description: data[0].name,
         icon: "i-lucide-circle-check",
         color: "primary",
@@ -99,7 +103,6 @@ export const useSubscriptions = () => {
 
     await fetchSubscriptions();
   };
-
 
   return {
     subscriptions,

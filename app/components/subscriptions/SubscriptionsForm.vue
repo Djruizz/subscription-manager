@@ -1,10 +1,27 @@
 <script setup lang="ts">
 import type { SelectItem } from "@nuxt/ui";
-import { newSubscriptionSchema } from "@@/schemas/subscription.schema";
+import {
+  newSubscriptionSchema,
+  type NewSubscriptionInput,
+} from "@@/schemas/subscription.schema";
+import {type Tables} from '~/types/database.types'
+const { createSubscription, editSubscription } = useSubscriptions();
+const { close } = useSubscriptionModal();
 
-const { createSubscription } = useSubscriptions();
+const props = defineProps<{
+  initialSub?: Tables<'subscriptions'>;
+}>();
 
-const { close } = useCreateSubscriptionModal();
+const state = reactive({
+  name: props.initialSub?.name ?? "",
+  category: props.initialSub?.category ?? "",
+  price: props.initialSub?.price ?? 0,
+  currency: props.initialSub?.currency ?? "USD",
+  billing_cycle: props.initialSub?.billing_cycle ?? "monthly",
+  start_date: props.initialSub?.start_date ?? new Date().toISOString().split("T")[0],
+  next_payment_date: props.initialSub?.next_payment_date ?? "",
+  active: props.initialSub?.active ?? true,
+});
 
 const handleSubmit = async () => {
   const parsed = newSubscriptionSchema.safeParse(state);
@@ -13,21 +30,15 @@ const handleSubmit = async () => {
     console.error(parsed.error);
     return;
   }
+  if(props.initialSub){
+    await editSubscription(parsed.data, props.initialSub.id)
+  }else{
+    await createSubscription(parsed.data);
+  }
 
-  await createSubscription(parsed.data);
+  
   close();
 };
-
-const state = reactive({
-  name: "",
-  category:"",
-  price: 0,
-  currency: "USD",
-  billing_cycle: "monthly",
-  start_date: new Date().toISOString().split('T')[0],
-  next_payment_date: "",
-  active: true,
-});
 
 const currencyOptions = ref<SelectItem[]>([
   { label: "USD", value: "USD" },
@@ -38,7 +49,6 @@ const billingOptions = ref<SelectItem[]>([
   { label: "Monthly", value: "monthly" },
   { label: "Yearly", value: "yearly" },
 ]);
-
 </script>
 <template>
   <UForm @submit="handleSubmit" :state="state">
@@ -46,7 +56,11 @@ const billingOptions = ref<SelectItem[]>([
       <UInput placeholder="Name" v-model="state.name" type="text"></UInput>
     </UFormField>
     <UFormField label="Category">
-      <UInput placeholder="Category" v-model="state.category" type="text"></UInput>
+      <UInput
+        placeholder="Category"
+        v-model="state.category"
+        type="text"
+      ></UInput>
     </UFormField>
     <UFormField label="Price">
       <UInput placeholder="$$" v-model="state.price" type="number"></UInput>

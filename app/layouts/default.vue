@@ -43,6 +43,6 @@ const pageTitle = computed((): string => {
       </div>
       <NavbarBottomNav class="md:hidden" />
     </div>
-    <SubscriptionsCreateModal />
+    <SubscriptionsFormModal />
   </UPage>
 </template>

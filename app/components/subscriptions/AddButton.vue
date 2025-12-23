@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {open} = useCreateSubscriptionModal()
+const {openCreate} = useSubscriptionModal()
 
 const props = withDefaults(
   defineProps<{
@@ -20,7 +20,7 @@ const props = withDefaults(
     color="primary"
     icon="i-lucide-plus"
     :class="[isIconOnly ? 'rounded-full aspect-square p-3' : 'rounded-md']"
-    @click="open"
+    @click="openCreate"
   >
     <template #default>
       <span v-if="!isIconOnly"> Add subscription </span>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Tables } from "~/types/database.types";
 const { open: openDeleteModal, } = useConfirmDeleteModal();
+const { openEdit } = useSubscriptionModal()
 
 import type { DropdownMenuItem } from "#ui/types";
 const props = defineProps<{
@@ -27,7 +28,7 @@ const getActionItems: DropdownMenuItem[] = [
 ];
 
 const handleEdit = () => {
-  
+  openEdit(props.sub)
 };
 const handleDelete = () => {
   openDeleteModal(props.sub);
