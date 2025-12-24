@@ -10,11 +10,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@internationalized/date": "^3.10.1",
     "@nuxt/ui": "^4.3.0",
+    "@popperjs/core": "^2.11.8",
     "@supabase/supabase-js": "^2.88.0",
     "nuxt": "^4.2.2",
     "supabase": "^2.67.2",
     "typescript": "^5.9.3",
+    "v-calendar": "^3.1.2",
     "vue": "^3.5.25",
     "vue-router": "^4.6.4",
     "zod": "^4.2.1"
